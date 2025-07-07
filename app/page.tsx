@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 
 async function fetchIdeas() {
@@ -43,7 +42,6 @@ export default function Home() {
 
   useEffect(() => {
     regenerate();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handlePhraseClick = async (phrase: string) => {
@@ -116,7 +114,7 @@ export default function Home() {
           {prdLoading && (
             <div className="mt-8 flex flex-col items-center justify-center gap-2">
               <PulsatingLoader />
-              <div className="text-blue-600">Generating PRD for "{selectedPhrase}"...</div>
+              <div className="text-blue-600">Generating PRD for &quot;{selectedPhrase}&quot;...</div>
             </div>
           )}
           {prd && !prdLoading && (
