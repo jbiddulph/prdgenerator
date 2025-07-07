@@ -47,7 +47,8 @@ export async function POST(req: NextRequest) {
     });
     const result = completion.choices[0]?.message?.content || '';
     return NextResponse.json({ result });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message || 'Something went wrong.' }, { status: 500 });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Something went wrong.';
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 } 

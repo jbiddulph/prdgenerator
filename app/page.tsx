@@ -144,7 +144,7 @@ export default function Home() {
               </div>
               <p>
                 This is a tool that generates product requirements documents based on
-                a user's input.
+                a user&apos;s input.
               </p>
               <p>
                 It uses the OpenAI API to generate the document.
