@@ -29,6 +29,7 @@ export default function Home() {
   const [prd, setPrd] = useState<string>("");
   const [prdLoading, setPrdLoading] = useState(false);
   const [copySuccess, setCopySuccess] = useState(false);
+  const [customIdea, setCustomIdea] = useState<string>("");
   const prdSectionRef = useRef<HTMLDivElement>(null);
 
   const regenerate = async () => {
@@ -52,6 +53,20 @@ export default function Home() {
       prdSectionRef.current?.scrollIntoView({ behavior: "smooth" });
     }, 100); // slight delay for smooth UX
     const prdText = await generatePRD(phrase);
+    setPrd(prdText);
+    setPrdLoading(false);
+  };
+
+  const handleCustomGenerate = async () => {
+    if (!customIdea.trim()) return;
+    
+    setSelectedPhrase(customIdea.trim());
+    setPrd("");
+    setPrdLoading(true);
+    setTimeout(() => {
+      prdSectionRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, 100);
+    const prdText = await generatePRD(customIdea.trim());
     setPrd(prdText);
     setPrdLoading(false);
   };
@@ -82,6 +97,28 @@ export default function Home() {
       <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start w-full max-w-2xl">
         {/* Phrase Buttons at the Top */}
       <h1 className="text-2xl font-bold text-center text-foreground">Product Requirements Document Generator</h1>
+      
+      {/* Custom Template Section */}
+      <div className="w-full max-w-5xl mx-auto mt-4 mb-8">
+        <h2 className="text-lg font-semibold text-foreground mb-4">Custom Template Request</h2>
+        <div className="space-y-4">
+          <textarea
+            value={customIdea}
+            onChange={(e) => setCustomIdea(e.target.value)}
+            placeholder="Describe your unique product idea or specific requirements for a PRD in detail. Be as specific as possible about features, target audience, technical requirements, and business goals..."
+            className="w-full h-32 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg resize-y bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            disabled={prdLoading}
+          />
+          <button
+            onClick={handleCustomGenerate}
+            disabled={!customIdea.trim() || prdLoading}
+            className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium"
+          >
+            {prdLoading ? "Generating..." : "Generate Custom PRD"}
+          </button>
+        </div>
+      </div>
+
       <div className="w-full max-w-5xl mx-auto mt-4 mb-8">
         <div className="flex items-center justify-between mb-2">
           <h2 className="text-lg font-semibold text-foreground">Template Ideas</h2>
